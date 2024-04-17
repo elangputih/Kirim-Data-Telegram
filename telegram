@@ -1,0 +1,54 @@
+
+#include "CTBot.h"
+CTBot myBot;
+
+//Konfigurasi koneksi Wifi
+String ssid = "Harapan Bersama";
+String pass = "poltekharber";
+
+//variable untuk toke
+String token = "7155922896:AAHaiqv8sX5rzJWh531m_JoN6ReXQCWiFKM";
+const int id = 698044304;
+
+void setup() {
+Serial.begin (9600);
+Serial.println ("memulai Koneksi Ke Wifi");
+
+
+//koneksi ke wifi
+myBot.wifiConnect (ssid,pass);
+//set telegram
+myBot.setTelegramToken(token);
+
+//cek koneksi wifi
+if (myBot.testConnection())
+  Serial.println ("Koneksi Berhasil");
+else 
+  Serial.println("Koneksi Gagal");
+  
+}
+
+void loop() {
+ 
+//baca pesan masuk dari telegram
+TBMessage msg;
+if (myBot.getNewMessage (msg))
+{
+  //tampilkan di serialmonitor
+  Serial.println("pesan Masuk: " +msg.text);
+
+  //variable penampung isi pesan
+  String pesan =msg.text;
+  if (pesan == "Hallo")
+  {
+    //Kirim pesan balasan
+    myBot.sendMessage (id,"Hallo juga......");
+  }
+  else if (pesan =="Apa Kabar  ?")
+  {
+    //Pesan Balasan
+    myBot.sendMessage (id,"Baik Saja......");
+  
+  } 
+}
+}
